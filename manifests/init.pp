@@ -16,6 +16,11 @@
 #
 class snmp($syslocation = '', $syscontact = '') {
 
+  $snmpd_options_file = $::operatingsystemrelease ? {
+    /^5.*$/ => '/etc/sysconfig/snmpd.options',
+    /^6.*$/ => '/etc/sysconfig/snmpd',
+  }
+
   package { 'net-snmp' :
     ensure  => present,
   }
@@ -30,7 +35,7 @@ class snmp($syslocation = '', $syscontact = '') {
     require => Package['net-snmp'],
   }
 
-  file { '/etc/sysconfig/snmpd.options' :
+  file { $snmpd_options_file :
     ensure  => file,
     owner   => root,
     group   => root,
