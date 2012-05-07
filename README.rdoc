@@ -5,7 +5,7 @@ and provides a template configuration.
 
 == Recommended use
 
-  class { "snmp":
+  class { 'snmp':
     syslocation => 'your location goes here',
     syscontact 	=> 'your email address goes here',
   }
