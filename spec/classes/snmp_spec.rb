@@ -18,7 +18,7 @@ describe 'snmp' do
       'ensure' => 'file',
 			'owner'  => 'root',
       'group'  => 'root',
-      'mode'   => '0640',
+      'mode'   => '0644',
     })
   end
 
@@ -27,7 +27,7 @@ describe 'snmp' do
       'ensure' => 'file',
 			'owner'  => 'root',
       'group'  => 'root',
-      'mode'   => '0640',
+      'mode'   => '0644',
     })
   end
 	
