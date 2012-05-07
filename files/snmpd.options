@@ -1,0 +1,5 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+# snmpd command line options
+OPTIONS="-LS 0-4 d -Lf /dev/null -p /var/run/snmpd.pid -a"

@@ -1,1 +1,4 @@
-include snmp
+class { 'snmp':
+  syslocation => 'Location',
+  syscontact  => 'test@maildomain.com',
+}
