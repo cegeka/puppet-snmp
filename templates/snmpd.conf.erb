@@ -1,0 +1,22 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+###############################################################################
+## System contact information
+###############################################################################
+
+syslocation  <%= syslocation %>
+syscontact  <%= syscontact %>
+
+
+###############################################################################
+## Access Control
+###############################################################################
+
+# Views
+view almostEverything  included  .1
+view almostEverything  excluded  tcp
+view almostEverything  excluded  udp
+
+rocommunity public default -V almostEverything
+
