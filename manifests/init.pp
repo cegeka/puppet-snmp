@@ -10,11 +10,14 @@
 #
 # Sample Usage:
 # class { "snmp":
-#   syslocation => 'Hasselt',
-#   syscontact  => 'unix@example.com',
+#   syslocation       => 'Hasselt',
+#   syscontact        => 'unix@example.com',
+#   additional_config => {
+#     "exec"           => "OID NAME PROGRAM [ARGS ...]",
+#   }
 # }
 #
-class snmp($syslocation = '', $syscontact = '') {
+class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
 
   $snmpd_options_file = $::operatingsystemrelease ? {
     /^5.*$/ => '/etc/sysconfig/snmpd.options',
