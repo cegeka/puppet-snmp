@@ -6,6 +6,7 @@ describe 'snmp' do
 	
 	let (:params) { { :syslocation => 'Hasselt' } }
 	let (:params) { { :syscontact => 'unix@cegeka.be' } }
+	let (:params) { { :additional_config => { "exec" => "echotest /bin/echo hello world" } } }
 
 	#it { should contain_class 'snmp' }
 
