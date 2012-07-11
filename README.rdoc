@@ -10,5 +10,8 @@ and provides a template configuration.
   class { 'snmp':
     syslocation => 'your location goes here',
     syscontact 	=> 'your email address goes here',
+    additional_config => {
+      "exec"           => "SCRIPT_NAME SCRIPT_FULL_PATH [ARGS ...]",
+      "extend"         => "OID COMMAND_FULL_PATH [ARGS ...]",
   }
 
