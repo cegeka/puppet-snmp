@@ -10,10 +10,11 @@
 #
 # Sample Usage:
 # class { "snmp":
-#   syslocation       => 'Hasselt',
+#   syslocation       => 'Belgium',
 #   syscontact        => 'unix@example.com',
 #   additional_config => {
-#     "exec"           => "OID NAME PROGRAM [ARGS ...]",
+#     "exec"           => "SCRIPT_NAME SCRIPT_FULL_PATH [ARGS ...]",
+#     "extend"         => "OID COMMAND_FULL_PATH [ARGS ...]",
 #   }
 # }
 #
