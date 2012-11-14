@@ -25,7 +25,7 @@ class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
     /^6.*$/ => '/etc/sysconfig/snmpd',
   }
 
-  package { 'net-snmp' :
+  package { ['net-snmp', 'net-snmp-utils'] :
     ensure  => present,
   }
 
