@@ -22,10 +22,11 @@ define snmp::config($ensure,$additional_config = '') {
   $real_config = $title
 
   file { "/etc/snmp/include/${real_config}":
-    ensure => directory,
-    mode   => '0750',
-    owner  => root,
-    group  => root,
+    ensure  => directory,
+    mode    => '0750',
+    owner   => root,
+    group   => root,
+    require => File['/etc/snmp/include']
   }
 
   file { "/etc/snmp/include/${real_config}/snmpd.conf":
