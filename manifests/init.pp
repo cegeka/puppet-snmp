@@ -12,10 +12,6 @@
 # class { "snmp":
 #   syslocation       => 'Belgium',
 #   syscontact        => 'unix@example.com',
-#   additional_config => {
-#     "exec"           => "SCRIPT_NAME SCRIPT_FULL_PATH [ARGS ...]",
-#     "extend"         => "OID COMMAND_FULL_PATH [ARGS ...]",
-#   }
 # }
 #
 class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
@@ -34,7 +30,24 @@ class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
     owner   => root,
     group   => root,
     mode    => '0644',
-    content => template("${module_name}/snmpd.conf.erb"),
+    content => template("${module_name}/etc/snmp/snmpd.conf.erb"),
+    notify  => Service['snmpd'],
+    require => Package['net-snmp'],
+  }
+
+  file { '/etc/snmp/include':
+    ensure => directory,
+    owner  => root,
+    group  => root,
+    mode   => '0750',
+  }
+
+  file { '/etc/init.d/snmpd' :
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    source  => "puppet:///modules/${module_name}/etc/init.d/snmpd",
     notify  => Service['snmpd'],
     require => Package['net-snmp'],
   }
@@ -44,7 +57,7 @@ class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
     owner   => root,
     group   => root,
     mode    => '0644',
-    source  => "puppet:///modules/${module_name}/snmpd.options",
+    source  => "puppet:///modules/${module_name}/etc/sysconfig/snmpd",
     notify  => Service['snmpd'],
     require => Package['net-snmp'],
   }
@@ -54,7 +67,7 @@ class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
     enable      => true,
     hasrestart  => true,
     hasstatus   => true,
-    require     => Package['net-snmp'],
+    require     => [Package['net-snmp'],File['/etc/snmp/include']],
   }
 
 }
