@@ -36,10 +36,11 @@ class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
   }
 
   file { '/etc/snmp/include':
-    ensure => directory,
-    owner  => root,
-    group  => root,
-    mode   => '0750',
+    ensure  => directory,
+    owner   => root,
+    group   => root,
+    mode    => '0750',
+    require => Package['net-snmp'],
   }
 
   file { '/etc/init.d/snmpd' :
