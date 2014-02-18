@@ -16,10 +16,7 @@
 #
 class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
 
-  $snmpd_options_file = $::operatingsystemrelease ? {
-    /^5.*$/ => '/etc/sysconfig/snmpd.options',
-    /^6.*$/ => '/etc/sysconfig/snmpd',
-  }
+  $snmpd_options_file = '/etc/sysconfig/snmpd'
 
   package { ['net-snmp', 'net-snmp-utils'] :
     ensure  => present,
