@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'snmp' do
-	
+
 	let (:params) { { :syslocation => 'Hasselt' } }
 	let (:params) { { :syscontact => 'unix@cegeka.be' } }
 	let (:params) { { :additional_config => { "exec" => "echotest /bin/echo hello world" } } }
@@ -14,13 +14,13 @@ describe 'snmp' do
 		it { should contain_class 'snmp' }
 
 		let(:facts) { { :operatingsystemrelease => '5.8' } }
-	
+
 		it { should contain_service('snmpd').with_ensure('running') }
 
 	  it { should contain_package('net-snmp').with_ensure('present') }
 
-		it 'should create /etc/sysconfig/snmpd.options' do
-      should contain_file('/etc/sysconfig/snmpd.options').with({
+		it 'should create /etc/sysconfig/snmpd' do
+      should contain_file('/etc/sysconfig/snmpd').with({
         'ensure' => 'file',
         'owner'  => 'root',
         'group'  => 'root',
@@ -31,7 +31,7 @@ describe 'snmp' do
 
 	context "Operating system release 6.2" do
 		it { should contain_class 'snmp' }
-		
+
 		let(:facts) { { :operatingsystemrelease => '6.2' } }
 
 		it { should contain_service('snmpd').with_ensure('running') }
@@ -48,7 +48,7 @@ describe 'snmp' do
     end
   end
 
-  
+
 #	context "Operating system release 5.8" do
 
 #		let(:facts) { { :operatingsystemrelease => '5.8' } }
@@ -80,5 +80,5 @@ describe 'snmp' do
 #      'mode'   => '0644',
 #    })
 #  end
-	
+
 end
