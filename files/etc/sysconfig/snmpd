@@ -2,5 +2,5 @@
 # DO NOT EDIT
 
 # snmpd command line options
-OPTIONS="-Ls d -Lf /dev/null -p /var/run/snmpd.pid -a"
+OPTIONS="-LS0-4d -Lf /dev/null -p /var/run/snmpd.pid -a"
 SNMPCUSTCONFPATH="/etc/snmp/include"
