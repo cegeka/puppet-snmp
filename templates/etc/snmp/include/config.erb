@@ -1,5 +1,5 @@
 # This file is being maintained by Puppet.
 # DO NOT EDIT
-<% @additional_config.each do |config, value| -%>
+<% @additional_config.sort.each do |config, value| -%>
 <%= config %> <%= value %>
 <% end -%>
