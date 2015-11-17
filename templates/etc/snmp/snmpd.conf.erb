@@ -26,3 +26,6 @@ view almostEverything  excluded  hrSWInstalledType
 rocommunity public default -V almostEverything
 
 ###############################################################################
+## multipath monitoring
+###############################################################################
+extend check-multipath /usr/local/scripts/monitoring/check-multipath.pl -s -l REG -e 'mpatha,1,1,warning:'
