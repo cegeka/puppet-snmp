@@ -28,5 +28,12 @@ rocommunity public default -V almostEverything
 ###############################################################################
 
 <% if @operatingsystemmajrelease == '7' && @is_virtual == 'false' %>
-includeDir /etc/snmp/include/hpsim/
+###############################################################################
+## HPSIM
+###############################################################################
+
+dlmod cmaX /usr/lib64/libcmaX64.so
+trapcommunity public
+trapsink <%= scope.function_hiera(['profile::iac::baremetal::traphost']) %> public
+
 <% end %>
