@@ -14,7 +14,7 @@
 #   syscontact        => 'unix@example.com',
 # }
 #
-class snmp($syslocation = '', $syscontact = '', $additional_config = '') {
+class snmp($syslocation = '', $syscontact = '') {
 
   $snmpd_options_file = '/etc/sysconfig/snmpd'
 
