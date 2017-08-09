@@ -49,15 +49,42 @@ class snmp($syslocation = '', $syscontact = '') {
     notify  => Service['snmpd'],
     require => Package['net-snmp'],
   }
-
-  file { $snmpd_options_file :
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    source  => "puppet:///modules/${module_name}/etc/sysconfig/snmpd",
-    notify  => Service['snmpd'],
-    require => Package['net-snmp'],
+  if $::operatingsystemmajrelease == "7" {
+    file { $snmpd_options_file :
+      ensure  => file,
+      owner   => root,
+      group   => root,
+      mode    => '0644',
+      source  => "puppet:///modules/${module_name}/etc/sysconfig/snmpd7",
+      notify  => Service['snmpd'],
+      require => Package['net-snmp'],
+    }
+    file { '/usr/lib/systemd/system/snmpd.service' :
+      ensure  => file,
+      owner   => root,
+      group   => root,
+      mode    => '0444',
+      source  => "puppet:///modules/${module_name}/snmpd.service",
+      notify  => Exec['reload_systemctl'],
+      require => Package['net-snmp'],
+    }
+    exec { 'reload_systemctl':
+      command     => "systemctl daemon-reload",
+      onlyif      => "test -x ${systemctl}",
+      path        => ['/usr/bin', '/bin'],
+      refreshonly => true,
+      notify      => Service['snmpd']
+    }
+  } else {
+    file { $snmpd_options_file :
+      ensure  => file,
+      owner   => root,
+      group   => root,
+      mode    => '0644',
+      source  => "puppet:///modules/${module_name}/etc/sysconfig/snmpd",
+      notify  => Service['snmpd'],
+      require => Package['net-snmp'],
+    }
   }
 
   service { 'snmpd' :
