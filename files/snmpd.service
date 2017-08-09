@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=notify
 EnvironmentFile=-/etc/sysconfig/snmpd
-ExecStartPre=/usr/bin/bash -c "CNF='/etc/snmp/snmpd.conf'; for file in `ls /etc/snmp/include/*/*.conf`; do CNF=\"$CNF,$file\"; done ; /usr/bin/systemctl set-environment CONF=\\\"`echo $CNF`\\\""
+ExecStartPre=/usr/bin/bash -c "CNF='/etc/snmp/snmpd.conf';[[ `ls /etc/snmp/include/*/*.conf 2>/dev/null` ]] && for file in `ls /etc/snmp/include/*/*.conf`; do CNF=\"$CNF,$file\"; done ; /usr/bin/systemctl set-environment CONF=\\\"`echo $CNF`\\\""
 ExecStart=/usr/sbin/snmpd $OPTIONS -f -c $CONF
 ExecReload=/bin/kill -HUP $MAINPID
 
