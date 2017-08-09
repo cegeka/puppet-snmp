@@ -1,0 +1,13 @@
+[Unit]
+Description=Simple Network Management Protocol (SNMP) Daemon.
+After=syslog.target network.target
+
+[Service]
+Type=notify
+EnvironmentFile=-/etc/sysconfig/snmpd
+ExecStartPre=/usr/bin/bash -c "CNF='/etc/snmp/snmpd.conf'; for file in `ls /etc/snmp/include/*/*.conf`; do CNF=\"$CNF,$file\"; done ; /usr/bin/systemctl set-environment CONF=\\\"`echo $CNF`\\\""
+ExecStart=/usr/sbin/snmpd $OPTIONS -f -c $CONF
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
