@@ -17,6 +17,7 @@
 class snmp($syslocation = '', $syscontact = '') {
 
   $snmpd_options_file = '/etc/sysconfig/snmpd'
+  $traphost = lookup('profile::iac::baremetal::traphost')
 
   package { ['net-snmp', 'net-snmp-utils'] :
     ensure  => present,
@@ -70,7 +71,7 @@ class snmp($syslocation = '', $syscontact = '') {
     }
     exec { 'reload_systemctl':
       command     => "systemctl daemon-reload",
-      onlyif      => "test -x ${systemctl}",
+      onlyif      => "test -x /usr/bin/systemctl",
       path        => ['/usr/bin', '/bin'],
       refreshonly => true,
       notify      => Service['snmpd']
