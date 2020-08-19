@@ -14,7 +14,12 @@
 #   syscontact        => 'unix@example.com',
 # }
 #
-class snmp($syslocation = '', $syscontact = '') {
+class snmp(
+  $syslocation = '',
+  $syscontact = '',
+  $service = running
+
+) {
 
   $snmpd_options_file = '/etc/sysconfig/snmpd'
   $traphost = lookup('profile::iac::baremetal::traphost')
@@ -89,7 +94,7 @@ class snmp($syslocation = '', $syscontact = '') {
   }
 
   service { 'snmpd' :
-    ensure      => running,
+    ensure      => $service,
     enable      => true,
     hasrestart  => true,
     hasstatus   => true,
