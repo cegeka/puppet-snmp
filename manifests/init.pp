@@ -17,7 +17,8 @@
 class snmp(
   $syslocation = '',
   $syscontact = '',
-  $service = running
+  $service = running,
+  $enable = true
 
 ) {
 
@@ -95,7 +96,7 @@ class snmp(
 
   service { 'snmpd' :
     ensure      => $service,
-    enable      => true,
+    enable      => $enable,
     hasrestart  => true,
     hasstatus   => true,
     require     => [Package['net-snmp'],File['/etc/snmp/include']],
