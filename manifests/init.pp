@@ -18,19 +18,30 @@ class snmp(
   $syslocation = '',
   $syscontact = '',
   $service = running,
-  $enable = true
-
+  $enable = true,
+  $package_state = present,
 ) {
 
   $snmpd_options_file = '/etc/sysconfig/snmpd'
   $traphost = lookup('profile::iac::baremetal::traphost')
 
+  case $package_state {
+    'present': {
+      $file_state = 'file'
+      $directory_state = 'directory'
+    }
+    'absent': {
+      $file_state = 'absent'
+      $directory_state = 'absent'
+    }
+    default: {}
+  }
   package { ['net-snmp', 'net-snmp-utils'] :
-    ensure  => present,
+    ensure  => $package_state,
   }
 
   file { '/etc/snmp/snmpd.conf' :
-    ensure  => file,
+    ensure  => $file_state,
     owner   => root,
     group   => root,
     mode    => '0644',
@@ -40,7 +51,7 @@ class snmp(
   }
 
   file { '/etc/snmp/include':
-    ensure  => directory,
+    ensure  => $directory_state,
     owner   => root,
     group   => root,
     mode    => '0750',
@@ -48,7 +59,7 @@ class snmp(
   }
 
   file { '/etc/init.d/snmpd' :
-    ensure  => file,
+    ensure  => $file_state,
     owner   => root,
     group   => root,
     mode    => '0755',
@@ -58,7 +69,7 @@ class snmp(
   }
   if $::operatingsystemmajrelease == "7" {
     file { $snmpd_options_file :
-      ensure  => file,
+      ensure  => $file_state,
       owner   => root,
       group   => root,
       mode    => '0644',
@@ -67,7 +78,7 @@ class snmp(
       require => Package['net-snmp'],
     }
     file { '/usr/lib/systemd/system/snmpd.service' :
-      ensure  => file,
+      ensure  => $file_state,
       owner   => root,
       group   => root,
       mode    => '0444',
@@ -84,7 +95,7 @@ class snmp(
     }
   } else {
     file { $snmpd_options_file :
-      ensure  => file,
+      ensure  => $file_state,
       owner   => root,
       group   => root,
       mode    => '0644',
